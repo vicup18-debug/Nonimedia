@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nonimedia Production Concept | Luxury Wedding & Event Photography</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Nonimedia Production Concept is a wedding and event photography brand focused on preserving timeless memories through intentional storytelling, emotional photography, and premium visual experiences.">
+  <meta name="keywords" content="Nonimedia, Nonimedia Production Concept, Luxury Wedding Photographer, Event Photography Nigeria, Premium Portrait Photographer, Editorial Wedding Photography">
+  <meta name="author" content="Nonimedia Production Concept">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Nonimedia Production Concept | Luxury Wedding & Event Photography">
+  <meta property="og:description" content="Preserving timeless memories through intentional storytelling, emotional photography, and premium visual experiences.">
+  <meta property="og:image" content="assets/hero_wedding.png">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:title" content="Nonimedia Production Concept | Luxury Wedding & Event Photography">
+  <meta property="twitter:description" content="Preserving timeless memories through intentional storytelling, emotional photography, and premium visual experiences.">
+  <meta property="twitter:image" content="assets/hero_wedding.png">
+
+  <!-- Favicon placeholder (CSS styled or simple dot in browser) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📷</text></svg>">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Header / Navigation -->
+  <header class="header" id="main-header">
+    <div class="container header-container">
+      <a href="#home" class="logo" id="header-logo">NONIMEDIA <span>CONCEPT</span></a>
+      
+      <nav class="nav" id="main-nav">
+        <a href="#home" class="nav-link active" id="nav-home-link">Home</a>
+        <a href="#portfolio" class="nav-link" id="nav-portfolio-link">Portfolio</a>
+        <a href="#about" class="nav-link" id="nav-about-link">About</a>
+        <a href="#services" class="nav-link" id="nav-services-link">Packages</a>
+        <a href="#contact" class="nav-link" id="nav-contact-link">Contact</a>
+      </nav>
+
+      <button class="menu-toggle" id="menu-toggle-btn" aria-label="Toggle Navigation Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-content reveal">
+          <span class="hero-tag">Wedding & Event Photography</span>
+          <h1 class="hero-title">
+            Not Just Captured…<span>Preserved Timelessly.</span>
+          </h1>
+          <p class="hero-description">
+            Preserving timeless memories through intentional storytelling, emotional photography, and premium visual experiences. We create frames that grow in value for generations.
+          </p>
+          <div class="hero-actions">
+            <a href="#portfolio" class="btn btn-primary" id="hero-view-portfolio-btn">Explore Galleries</a>
+            <a href="#contact" class="btn btn-outline" id="hero-book-shoot-btn">Begin Your Story</a>
+          </div>
+        </div>
+        
+        <div class="hero-image-wrapper reveal">
+          <div class="hero-img-box">
+            <img src="assets/hero_wedding.png" alt="Luxury wedding couple, fine-art emotional photography by Nonimedia Production Concept" class="hero-img">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Brand Statement Section -->
+    <section class="brand-statement">
+      <div class="container">
+        <div class="statement-wrapper reveal">
+          <p class="statement-subtitle">Our Philosophy</p>
+          <h2 class="statement-text">
+            “We want every client to feel seen, valued, comfortable, and confident that their most meaningful moments are being preserved with intention.”
+          </h2>
+          <span class="statement-separator"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="section portfolio" id="portfolio">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-subtitle">Showcase</span>
+          <h2 class="section-title">Selected Works</h2>
+        </div>
+
+        <!-- Filters -->
+        <div class="portfolio-filters reveal">
+          <button class="filter-btn active" data-filter="all" id="filter-all-btn">All Work</button>
+          <button class="filter-btn" data-filter="weddings" id="filter-weddings-btn">Weddings</button>
+          <button class="filter-btn" data-filter="couples" id="filter-couples-btn">Couples</button>
+          <button class="filter-btn" data-filter="portraits" id="filter-portraits-btn">Portraits</button>
+          <button class="filter-btn" data-filter="events" id="filter-events-btn">Events</button>
+        </div>
+
+        <!-- Portfolio Grid -->
+        <div class="portfolio-grid reveal">
+          
+          <!-- Item 1: Wedding -->
+          <div class="portfolio-item wide weddings" data-index="0" id="portfolio-item-0">
+            <div class="portfolio-item-inner">
+              <img src="assets/portfolio/portfolio_wedding.png" alt="Luxury editorial wedding couple photography by Nonimedia Production Concept">
+              <div class="portfolio-overlay">
+                <span class="portfolio-category">Weddings</span>
+                <h3 class="portfolio-title">The Golden Promise</h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 2: Couples -->
+          <div class="portfolio-item tall couples" data-index="1" id="portfolio-item-1">
+            <div class="portfolio-item-inner">
+              <img src="assets/portfolio/portfolio_couple.png" alt="Intimate couple sunset photography by Nonimedia Production Concept">
+              <div class="portfolio-overlay">
+                <span class="portfolio-category">Couples</span>
+                <h3 class="portfolio-title">Intimate Silences</h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 3: Portraits -->
+          <div class="portfolio-item portraits" data-index="2" id="portfolio-item-2">
+            <div class="portfolio-item-inner">
+              <img src="assets/portfolio/portfolio_portrait.png" alt="Fine-art high-end portrait photography by Nonimedia Production Concept">
+              <div class="portfolio-overlay">
+                <span class="portfolio-category">Portraits</span>
+                <h3 class="portfolio-title">Contrast & Identity</h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 4: Events -->
+          <div class="portfolio-item wide events" data-index="3" id="portfolio-item-3">
+            <div class="portfolio-item-inner">
+              <img src="assets/portfolio/portfolio_event.png" alt="Luxury wedding reception event by Nonimedia Production Concept">
+              <div class="portfolio-overlay">
+                <span class="portfolio-category">Events</span>
+                <h3 class="portfolio-title">A Night of Grandeur</h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 5: Weddings (Traditional) -->
+          <div class="portfolio-item weddings" data-index="4" id="portfolio-item-4">
+            <div class="portfolio-item-inner">
+              <img src="assets/portfolio/wedding_couple.png" alt="Traditional wedding couple ceremony by Nonimedia Production Concept">
+              <div class="portfolio-overlay">
+                <span class="portfolio-category">Weddings</span>
+                <h3 class="portfolio-title">Cultural Heritage</h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 6: Portraits (Creative Studio) -->
+          <div class="portfolio-item tall portraits" data-index="5" id="portfolio-item-5">
+            <div class="portfolio-item-inner">
+              <img src="assets/hero_portrait.png" alt="Dramatic studio lighting portrait by Nonimedia Production Concept">
+              <div class="portfolio-overlay">
+                <span class="portfolio-category">Portraits</span>
+                <h3 class="portfolio-title">Behind the Light</h3>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="portfolio-lightbox" aria-modal="true" role="dialog">
+      <button class="lightbox-close" id="lightbox-close-btn" aria-label="Close Lightbox">&times;</button>
+      <button class="lightbox-nav lightbox-prev" id="lightbox-prev-btn" aria-label="Previous Image">&#10094;</button>
+      
+      <div class="lightbox-content">
+        <img src="" alt="" class="lightbox-img" id="lightbox-image">
+        <div class="lightbox-caption" id="lightbox-caption-text">Image Caption</div>
+        <div class="lightbox-meta" id="lightbox-meta-text">Category</div>
+      </div>
+
+      <button class="lightbox-nav lightbox-next" id="lightbox-next-btn" aria-label="Next Image">&#10095;</button>
+    </div>
+
+    <!-- About Section -->
+    <section class="section about" id="about">
+      <div class="container about-grid">
+        <div class="about-image reveal">
+          <div class="about-image-inner">
+            <img src="assets/portfolio/photographer_profile.png" alt="Nonimedia Production Concept workspace">
+          </div>
+        </div>
+        
+        <div class="about-content reveal">
+          <span class="section-subtitle">Our Purpose</span>
+          <h2 class="section-title about-title">Preserving raw emotion and timeless heritage.</h2>
+          <p class="about-story">
+            Nonimedia Production Concept was born out of a desire to guard against fading memories. We believe that your most meaningful moments are not just events to be documented, but legacies that deserve to be preserved timelessly. Our photography is emotional, elegant, and cinematic, designed to make you feel seen, valued, and comfortable at every stage of the journey.
+          </p>
+          
+          <div class="about-details">
+            <div class="detail-item">
+              <h4>Intentional Storytelling</h4>
+              <p>We focus on quiet, candid connections, authentic emotion, and artistic composition over forced posing.</p>
+            </div>
+            <div class="detail-item">
+              <h4>Preservation Philosophy</h4>
+              <p>We treat every photograph as family heritage—an investment that grows richer in value over the years.</p>
+            </div>
+          </div>
+
+          <a href="#contact" class="btn btn-outline" id="about-read-more-btn" style="align-self: flex-start;">Begin Your Journey</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services / Packages Section -->
+    <section class="section services" id="services">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-subtitle">Investment</span>
+          <h2 class="section-title">Wedding Photography Packages</h2>
+        </div>
+
+        <div class="packages-grid">
+          <!-- Package 1: Bronze -->
+          <div class="package-card reveal" id="package-bronze-card">
+            <h3 class="package-name">Bronze Package</h3>
+            <p class="package-description">Essential wedding documentation capturing all key events and authentic moments beautifully.</p>
+            <div class="package-price">₦300,000 <span>/ Coverage</span></div>
+            <ul class="package-features">
+              <li>Full Wedding Coverage</li>
+              <li>120 Edited Pictures</li>
+              <li>Online Gallery Delivery</li>
+              <li>Professional Lead Photographer</li>
+            </ul>
+            <a href="#contact" class="btn btn-outline btn-package-book" data-package="Bronze Package" id="book-bronze-btn">Select Package</a>
+          </div>
+
+          <!-- Package 2: Silver -->
+          <div class="package-card reveal" style="transition-delay: 0.1s;" id="package-silver-card">
+            <h3 class="package-name">Silver Package</h3>
+            <p class="package-description">Enhanced coverage with multiple angles, higher selection counts, and beautiful physical print.</p>
+            <div class="package-price">₦500,000 <span>/ Coverage</span></div>
+            <ul class="package-features">
+              <li>2 Professional Photographers</li>
+              <li>200 Edited Pictures</li>
+              <li>Framed Portrait (16x24")</li>
+              <li>Priority Editing (Fast Turnaround)</li>
+              <li>Online Gallery Delivery</li>
+            </ul>
+            <a href="#contact" class="btn btn-outline btn-package-book" data-package="Silver Package" id="book-silver-btn">Select Package</a>
+          </div>
+
+          <!-- Package 3: Gold (Featured) -->
+          <div class="package-card featured reveal" style="transition-delay: 0.2s;" id="package-gold-card">
+            <span class="package-badge">Luxury Choice</span>
+            <h3 class="package-name">Gold Package</h3>
+            <p class="package-description">The ultimate editorial visual experience documenting your love story with absolute luxury and care.</p>
+            <div class="package-price">₦800,000 <span>/ Full Story</span></div>
+            <ul class="package-features">
+              <li>Full Luxury Coverage</li>
+              <li>350+ Edited Pictures</li>
+              <li>Pre-Wedding Shoot</li>
+              <li>Premium Photobook (12x12")</li>
+              <li>Framed Portrait (24x36")</li>
+              <li>Same-Day Sneak Peeks</li>
+            </ul>
+            <a href="#contact" class="btn btn-primary btn-package-book" data-package="Gold Package" id="book-gold-btn">Select Package</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section testimonials" id="testimonials">
+      <div class="container">
+        <div class="testimonials-slider reveal">
+          <div class="quote-icon">“</div>
+          <div class="testimonials-track" id="testimonials-track">
+            
+            <div class="testimonial-slide">
+              <p class="testimonial-text">
+                "Nonimedia Production Concept exceeded all our expectations! They captured our wedding with so much cultural richness, warmth, and emotion. Every photo tells a story of the joy we felt. We will treasure these memories forever."
+              </p>
+              <h4 class="testimonial-author">Chinedu & Ifeoma O.</h4>
+              <span class="testimonial-role">Wedding Client</span>
+            </div>
+
+            <div class="testimonial-slide">
+              <p class="testimonial-text">
+                "I needed clean portraits for my brand and Nonimedia delivered perfectly. The attention to lighting and posing suggestions made me feel so comfortable and confident. They are truly exceptional creators!"
+              </p>
+              <h4 class="testimonial-author">Sandra Alonge</h4>
+              <span class="testimonial-role">Portrait Client</span>
+            </div>
+
+            <div class="testimonial-slide">
+              <p class="testimonial-text">
+                "Professional, punctual, and highly creative. We hired Nonimedia for our luxury anniversary event and the photos were delivered in record time. Excellent visual quality and great work ethics."
+              </p>
+              <h4 class="testimonial-author">Delta Premium Club</h4>
+              <span class="testimonial-role">Event Client</span>
+            </div>
+
+          </div>
+
+          <div class="testimonial-dots" id="testimonial-dots-container">
+            <span class="dot active" data-slide="0"></span>
+            <span class="dot" data-slide="1"></span>
+            <span class="dot" data-slide="2"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact & Booking Section -->
+    <section class="section contact" id="contact">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-subtitle">Booking</span>
+          <h2 class="section-title">Schedule A Shoot</h2>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-info reveal">
+            <div class="contact-info-block">
+              <div class="info-item">
+                <div class="info-icon">📍</div>
+                <div class="info-content">
+                  <h4>Location</h4>
+                  <p>Based in Asaba, Nigeria (Available Worldwide)</p>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <div class="info-icon">✉</div>
+                <div class="info-content">
+                  <h4>Email</h4>
+                  <p><a href="mailto:hello@nonimedia.com" id="contact-email-link">hello@nonimedia.com</a></p>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <div class="info-icon">📞</div>
+                <div class="info-content">
+                  <h4>WhatsApp & Call</h4>
+                  <p><a href="tel:+2348030000000" id="contact-phone-link">+234 803 000 0000</a></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-socials">
+              <h4 class="social-title">Follow the Journey</h4>
+              <div class="social-links">
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link" id="social-instagram-link">Instagram</a>
+                <a href="https://wa.me/2348030000000" target="_blank" rel="noopener noreferrer" class="social-link" id="social-whatsapp-link">WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Form -->
+          <div class="reveal" style="transition-delay: 0.1s;">
+            <form class="contact-form" id="booking-form" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <input type="text" id="form-name" class="form-input" placeholder=" " required>
+                  <label for="form-name" class="form-label">Your Name</label>
+                </div>
+                
+                <div class="form-group">
+                  <input type="email" id="form-email" class="form-input" placeholder=" " required>
+                  <label for="form-email" class="form-label">Email Address</label>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <select id="form-service" class="form-input" required>
+                    <option value="" disabled selected hidden></option>
+                    <option value="Bronze Package">Bronze Package (₦300k)</option>
+                    <option value="Silver Package">Silver Package (₦500k)</option>
+                    <option value="Gold Package">Gold Package (₦800k)</option>
+                    <option value="Custom Creative Project">Custom Project / Other</option>
+                  </select>
+                  <label for="form-service" class="form-label">Service Type</label>
+                </div>
+
+                <div class="form-group">
+                  <input type="date" id="form-date" class="form-input" placeholder=" " required>
+                  <label for="form-date" class="form-label">Preferred Date</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <textarea id="form-message" class="form-input" rows="4" placeholder=" " required></textarea>
+                <label for="form-message" class="form-label">Tell me about your vision...</label>
+              </div>
+
+              <div class="form-status" id="form-status-msg"></div>
+
+              <button type="submit" class="btn btn-primary" id="form-submit-btn" style="align-self: flex-start;">Send Enquiry</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-about">
+          <a href="#home" class="logo" id="footer-logo">NONIMEDIA <span>CONCEPT</span></a>
+          <p>Preserving timeless memories through intentional storytelling, emotional photography, and premium visual experiences.</p>
+        </div>
+
+        <div class="footer-links">
+          <h4>Navigate</h4>
+          <ul class="footer-menu">
+            <li><a href="#home" id="footer-home-link">Home</a></li>
+            <li><a href="#portfolio" id="footer-portfolio-link">Portfolio</a></li>
+            <li><a href="#about" id="footer-about-link">About</a></li>
+            <li><a href="#services" id="footer-services-link">Packages</a></li>
+            <li><a href="#contact" id="footer-contact-link">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h4>Photography</h4>
+          <ul class="footer-menu">
+            <li><a href="#portfolio" id="footer-weddings-link">Weddings</a></li>
+            <li><a href="#portfolio" id="footer-couples-link">Couples</a></li>
+            <li><a href="#portfolio" id="footer-portraits-link">Portraits</a></li>
+            <li><a href="#portfolio" id="footer-events-link">Events</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copyright">&copy; 2026 Nonimedia Production Concept. All rights reserved.</p>
+        <div class="footer-info">
+          <span>Based in Nigeria | Available Worldwide</span>
+          <span>Preserved Timelessly</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Main JS file -->
+  <script src="app.js"></script>
+</body>
+</html>
