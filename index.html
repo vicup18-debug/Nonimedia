@@ -36,11 +36,11 @@
       <a href="#home" class="logo" id="header-logo">NONIMEDIA <span>CONCEPT</span></a>
       
       <nav class="nav" id="main-nav">
-        <a href="#home" class="nav-link active" id="nav-home-link">Home</a>
-        <a href="#portfolio" class="nav-link" id="nav-portfolio-link">Portfolio</a>
-        <a href="#about" class="nav-link" id="nav-about-link">About</a>
-        <a href="#services" class="nav-link" id="nav-services-link">Packages</a>
-        <a href="#contact" class="nav-link" id="nav-contact-link">Contact</a>
+        <a href="index.html" class="nav-link active" id="nav-home-link">Home</a>
+        <a href="portfolio.html" class="nav-link" id="nav-portfolio-link">Portfolio</a>
+        <a href="about.html" class="nav-link" id="nav-about-link">About</a>
+        <a href="services.html" class="nav-link" id="nav-services-link">Packages</a>
+        <a href="contact.html" class="nav-link" id="nav-contact-link">Contact</a>
       </nav>
 
       <button class="menu-toggle" id="menu-toggle-btn" aria-label="Toggle Navigation Menu">
@@ -64,8 +64,8 @@
             Preserving timeless memories through intentional storytelling, emotional photography, and premium visual experiences. We create frames that grow in value for generations.
           </p>
           <div class="hero-actions">
-            <a href="#portfolio" class="btn btn-primary" id="hero-view-portfolio-btn">Explore Galleries</a>
-            <a href="#contact" class="btn btn-outline" id="hero-book-shoot-btn">Begin Your Story</a>
+            <a href="portfolio.html" class="btn btn-primary" id="hero-view-portfolio-btn">Explore Galleries</a>
+            <a href="contact.html" class="btn btn-outline" id="hero-book-shoot-btn">Begin Your Story</a>
           </div>
         </div>
         
@@ -98,16 +98,7 @@
           <h2 class="section-title">Selected Works</h2>
         </div>
 
-        <!-- Filters -->
-        <div class="portfolio-filters reveal">
-          <button class="filter-btn active" data-filter="all" id="filter-all-btn">All Work</button>
-          <button class="filter-btn" data-filter="weddings" id="filter-weddings-btn">Weddings</button>
-          <button class="filter-btn" data-filter="couples" id="filter-couples-btn">Couples</button>
-          <button class="filter-btn" data-filter="portraits" id="filter-portraits-btn">Portraits</button>
-          <button class="filter-btn" data-filter="events" id="filter-events-btn">Events</button>
-        </div>
-
-        <!-- Portfolio Grid -->
+        <!-- Portfolio Grid (Curated Home Preview) -->
         <div class="portfolio-grid reveal">
           
           <!-- Item 1: Wedding -->
@@ -143,39 +134,10 @@
             </div>
           </div>
 
-          <!-- Item 4: Events -->
-          <div class="portfolio-item wide events" data-index="3" id="portfolio-item-3">
-            <div class="portfolio-item-inner">
-              <img src="assets/portfolio/portfolio_event.png" alt="Luxury wedding reception event by Nonimedia Production Concept">
-              <div class="portfolio-overlay">
-                <span class="portfolio-category">Events</span>
-                <h3 class="portfolio-title">A Night of Grandeur</h3>
-              </div>
-            </div>
-          </div>
+        </div>
 
-          <!-- Item 5: Weddings (Traditional) -->
-          <div class="portfolio-item weddings" data-index="4" id="portfolio-item-4">
-            <div class="portfolio-item-inner">
-              <img src="assets/portfolio/wedding_couple.png" alt="Traditional wedding couple ceremony by Nonimedia Production Concept">
-              <div class="portfolio-overlay">
-                <span class="portfolio-category">Weddings</span>
-                <h3 class="portfolio-title">Cultural Heritage</h3>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 6: Portraits (Creative Studio) -->
-          <div class="portfolio-item tall portraits" data-index="5" id="portfolio-item-5">
-            <div class="portfolio-item-inner">
-              <img src="assets/hero_portrait.png" alt="Dramatic studio lighting portrait by Nonimedia Production Concept">
-              <div class="portfolio-overlay">
-                <span class="portfolio-category">Portraits</span>
-                <h3 class="portfolio-title">Behind the Light</h3>
-              </div>
-            </div>
-          </div>
-
+        <div class="reveal" style="text-align: center; margin-top: 4rem;">
+          <a href="portfolio.html" class="btn btn-outline" id="home-view-all-portfolio-btn">View Full Portfolio</a>
         </div>
       </div>
     </section>
@@ -221,65 +183,38 @@
             </div>
           </div>
 
-          <a href="#contact" class="btn btn-outline" id="about-read-more-btn" style="align-self: flex-start;">Begin Your Journey</a>
+          <a href="about.html" class="btn btn-outline" id="about-read-more-btn" style="align-self: flex-start;">Read Our Story</a>
         </div>
       </div>
     </section>
 
-    <!-- Services / Packages Section -->
-    <section class="section services" id="services">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="section-subtitle">Investment</span>
-          <h2 class="section-title">Wedding Photography Packages</h2>
-        </div>
-
-        <div class="packages-grid">
-          <!-- Package 1: Bronze -->
-          <div class="package-card reveal" id="package-bronze-card">
-            <h3 class="package-name">Bronze Package</h3>
-            <p class="package-description">Essential wedding documentation capturing all key events and authentic moments beautifully.</p>
-            <div class="package-price">₦300,000 <span>/ Coverage</span></div>
-            <ul class="package-features">
-              <li>Full Wedding Coverage</li>
-              <li>120 Edited Pictures</li>
-              <li>Online Gallery Delivery</li>
-              <li>Professional Lead Photographer</li>
-            </ul>
-            <a href="#contact" class="btn btn-outline btn-package-book" data-package="Bronze Package" id="book-bronze-btn">Select Package</a>
+    <!-- Services Preview Section -->
+    <section class="section services-preview" id="services">
+      <div class="container services-preview-container">
+        <div class="services-preview-content reveal">
+          <span class="section-subtitle">Our Collections</span>
+          <h2 class="section-title">The Wedding Collections</h2>
+          <p class="services-preview-text">
+            Every love story is unique, and our collections are tailored to preserve your memories with the highest level of care, excellence, and elegance. From essential documentation to luxury, all-inclusive editorial coverage, explore our packages designed to match your vision.
+          </p>
+          <div class="services-preview-packages">
+            <div class="preview-pkg-item">
+              <h4>Bronze Package</h4>
+              <span class="preview-pkg-line"></span>
+              <span class="preview-pkg-price">₦300,000</span>
+            </div>
+            <div class="preview-pkg-item">
+              <h4>Silver Package</h4>
+              <span class="preview-pkg-line"></span>
+              <span class="preview-pkg-price">₦500,000</span>
+            </div>
+            <div class="preview-pkg-item">
+              <h4>Gold Package</h4>
+              <span class="preview-pkg-line"></span>
+              <span class="preview-pkg-price">₦800,000</span>
+            </div>
           </div>
-
-          <!-- Package 2: Silver -->
-          <div class="package-card reveal" style="transition-delay: 0.1s;" id="package-silver-card">
-            <h3 class="package-name">Silver Package</h3>
-            <p class="package-description">Enhanced coverage with multiple angles, higher selection counts, and beautiful physical print.</p>
-            <div class="package-price">₦500,000 <span>/ Coverage</span></div>
-            <ul class="package-features">
-              <li>2 Professional Photographers</li>
-              <li>200 Edited Pictures</li>
-              <li>Framed Portrait (16x24")</li>
-              <li>Priority Editing (Fast Turnaround)</li>
-              <li>Online Gallery Delivery</li>
-            </ul>
-            <a href="#contact" class="btn btn-outline btn-package-book" data-package="Silver Package" id="book-silver-btn">Select Package</a>
-          </div>
-
-          <!-- Package 3: Gold (Featured) -->
-          <div class="package-card featured reveal" style="transition-delay: 0.2s;" id="package-gold-card">
-            <span class="package-badge">Luxury Choice</span>
-            <h3 class="package-name">Gold Package</h3>
-            <p class="package-description">The ultimate editorial visual experience documenting your love story with absolute luxury and care.</p>
-            <div class="package-price">₦800,000 <span>/ Full Story</span></div>
-            <ul class="package-features">
-              <li>Full Luxury Coverage</li>
-              <li>350+ Edited Pictures</li>
-              <li>Pre-Wedding Shoot</li>
-              <li>Premium Photobook (12x12")</li>
-              <li>Framed Portrait (24x36")</li>
-              <li>Same-Day Sneak Peeks</li>
-            </ul>
-            <a href="#contact" class="btn btn-primary btn-package-book" data-package="Gold Package" id="book-gold-btn">Select Package</a>
-          </div>
+          <a href="services.html" class="btn btn-primary" id="home-view-packages-btn">Explore Packages & Inclusions</a>
         </div>
       </div>
     </section>
@@ -326,94 +261,16 @@
       </div>
     </section>
 
-    <!-- Contact & Booking Section -->
-    <section class="section contact" id="contact">
-      <div class="container">
-        <div class="section-header reveal">
-          <span class="section-subtitle">Booking</span>
-          <h2 class="section-title">Schedule A Shoot</h2>
-        </div>
-
-        <div class="contact-grid">
-          <div class="contact-info reveal">
-            <div class="contact-info-block">
-              <div class="info-item">
-                <div class="info-icon">📍</div>
-                <div class="info-content">
-                  <h4>Location</h4>
-                  <p>Based in Asaba, Nigeria (Available Worldwide)</p>
-                </div>
-              </div>
-
-              <div class="info-item">
-                <div class="info-icon">✉</div>
-                <div class="info-content">
-                  <h4>Email</h4>
-                  <p><a href="mailto:hello@nonimedia.com" id="contact-email-link">hello@nonimedia.com</a></p>
-                </div>
-              </div>
-
-              <div class="info-item">
-                <div class="info-icon">📞</div>
-                <div class="info-content">
-                  <h4>WhatsApp & Call</h4>
-                  <p><a href="tel:+2348030000000" id="contact-phone-link">+234 803 000 0000</a></p>
-                </div>
-              </div>
-            </div>
-
-            <div class="contact-socials">
-              <h4 class="social-title">Follow the Journey</h4>
-              <div class="social-links">
-                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link" id="social-instagram-link">Instagram</a>
-                <a href="https://wa.me/2348030000000" target="_blank" rel="noopener noreferrer" class="social-link" id="social-whatsapp-link">WhatsApp</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- Form -->
-          <div class="reveal" style="transition-delay: 0.1s;">
-            <form class="contact-form" id="booking-form" novalidate>
-              <div class="form-row">
-                <div class="form-group">
-                  <input type="text" id="form-name" class="form-input" placeholder=" " required>
-                  <label for="form-name" class="form-label">Your Name</label>
-                </div>
-                
-                <div class="form-group">
-                  <input type="email" id="form-email" class="form-input" placeholder=" " required>
-                  <label for="form-email" class="form-label">Email Address</label>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <select id="form-service" class="form-input" required>
-                    <option value="" disabled selected hidden></option>
-                    <option value="Bronze Package">Bronze Package (₦300k)</option>
-                    <option value="Silver Package">Silver Package (₦500k)</option>
-                    <option value="Gold Package">Gold Package (₦800k)</option>
-                    <option value="Custom Creative Project">Custom Project / Other</option>
-                  </select>
-                  <label for="form-service" class="form-label">Service Type</label>
-                </div>
-
-                <div class="form-group">
-                  <input type="date" id="form-date" class="form-input" placeholder=" " required>
-                  <label for="form-date" class="form-label">Preferred Date</label>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <textarea id="form-message" class="form-input" rows="4" placeholder=" " required></textarea>
-                <label for="form-message" class="form-label">Tell me about your vision...</label>
-              </div>
-
-              <div class="form-status" id="form-status-msg"></div>
-
-              <button type="submit" class="btn btn-primary" id="form-submit-btn" style="align-self: flex-start;">Send Enquiry</button>
-            </form>
-          </div>
+    <!-- Let's Connect CTA Section -->
+    <section class="section connect-cta" id="contact">
+      <div class="container connect-cta-container">
+        <div class="connect-cta-content reveal">
+          <span class="section-subtitle">Connect</span>
+          <h2 class="section-title">Let's Preserve Your Story</h2>
+          <p class="connect-cta-text">
+            Our dates for luxury weddings and events fill up quickly. If you value timeless, intentional visual storytelling and want your family heritage preserved beautifully, let us connect and bring your vision to life.
+          </p>
+          <a href="contact.html" class="btn btn-primary" id="home-cta-booking-btn">Begin Your Inquiry</a>
         </div>
       </div>
     </section>
@@ -424,28 +281,28 @@
     <div class="container">
       <div class="footer-top">
         <div class="footer-about">
-          <a href="#home" class="logo" id="footer-logo">NONIMEDIA <span>CONCEPT</span></a>
+          <a href="index.html" class="logo" id="footer-logo">NONIMEDIA <span>CONCEPT</span></a>
           <p>Preserving timeless memories through intentional storytelling, emotional photography, and premium visual experiences.</p>
         </div>
 
         <div class="footer-links">
           <h4>Navigate</h4>
           <ul class="footer-menu">
-            <li><a href="#home" id="footer-home-link">Home</a></li>
-            <li><a href="#portfolio" id="footer-portfolio-link">Portfolio</a></li>
-            <li><a href="#about" id="footer-about-link">About</a></li>
-            <li><a href="#services" id="footer-services-link">Packages</a></li>
-            <li><a href="#contact" id="footer-contact-link">Contact</a></li>
+            <li><a href="index.html" id="footer-home-link">Home</a></li>
+            <li><a href="portfolio.html" id="footer-portfolio-link">Portfolio</a></li>
+            <li><a href="about.html" id="footer-about-link">About</a></li>
+            <li><a href="services.html" id="footer-services-link">Packages</a></li>
+            <li><a href="contact.html" id="footer-contact-link">Contact</a></li>
           </ul>
         </div>
 
         <div class="footer-links">
           <h4>Photography</h4>
           <ul class="footer-menu">
-            <li><a href="#portfolio" id="footer-weddings-link">Weddings</a></li>
-            <li><a href="#portfolio" id="footer-couples-link">Couples</a></li>
-            <li><a href="#portfolio" id="footer-portraits-link">Portraits</a></li>
-            <li><a href="#portfolio" id="footer-events-link">Events</a></li>
+            <li><a href="portfolio.html?filter=weddings" id="footer-weddings-link">Weddings</a></li>
+            <li><a href="portfolio.html?filter=couples" id="footer-couples-link">Couples</a></li>
+            <li><a href="portfolio.html?filter=portraits" id="footer-portraits-link">Portraits</a></li>
+            <li><a href="portfolio.html?filter=events" id="footer-events-link">Events</a></li>
           </ul>
         </div>
       </div>

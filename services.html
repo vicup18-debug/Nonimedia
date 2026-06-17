@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Packages & Pricing | Nonimedia Production Concept</title>
+  <meta name="description" content="View Nonimedia Production Concept's wedding photography packages. Pricing and inclusions for Bronze, Silver, and Gold collections.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📷</text></svg>">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Header / Navigation -->
+  <header class="header scrolled" id="main-header">
+    <div class="container header-container">
+      <a href="index.html" class="logo" id="header-logo">NONIMEDIA <span>CONCEPT</span></a>
+      
+      <nav class="nav" id="main-nav">
+        <a href="index.html" class="nav-link" id="nav-home-link">Home</a>
+        <a href="portfolio.html" class="nav-link" id="nav-portfolio-link">Portfolio</a>
+        <a href="about.html" class="nav-link" id="nav-about-link">About</a>
+        <a href="services.html" class="nav-link active" id="nav-services-link">Packages</a>
+        <a href="contact.html" class="nav-link" id="nav-contact-link">Contact</a>
+      </nav>
+
+      <button class="menu-toggle" id="menu-toggle-btn" aria-label="Toggle Navigation Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Page Header -->
+    <section class="page-header">
+      <div class="container">
+        <p>Investment</p>
+        <h1>Photography Collections</h1>
+      </div>
+    </section>
+
+    <!-- Services / Packages Section -->
+    <section class="section services" style="padding-top: 5rem;">
+      <div class="container">
+        <div class="packages-grid">
+          
+          <!-- Package 1: Bronze -->
+          <div class="package-card reveal" id="package-bronze-card">
+            <h3 class="package-name">Bronze Package</h3>
+            <p class="package-description">Essential wedding documentation capturing all key events and authentic moments beautifully.</p>
+            <div class="package-price">₦300,000 <span>/ Coverage</span></div>
+            <ul class="package-features">
+              <li>Full Wedding Coverage</li>
+              <li>120 Edited Pictures</li>
+              <li>Online Gallery Delivery</li>
+              <li>Professional Lead Photographer</li>
+            </ul>
+            <a href="contact.html?package=bronze" class="btn btn-outline btn-package-book" data-package="Bronze Package" id="book-bronze-btn">Select Package</a>
+          </div>
+
+          <!-- Package 2: Silver -->
+          <div class="package-card reveal" style="transition-delay: 0.1s;" id="package-silver-card">
+            <h3 class="package-name">Silver Package</h3>
+            <p class="package-description">Enhanced coverage with multiple angles, higher selection counts, and beautiful physical print.</p>
+            <div class="package-price">₦500,000 <span>/ Coverage</span></div>
+            <ul class="package-features">
+              <li>2 Professional Photographers</li>
+              <li>200 Edited Pictures</li>
+              <li>Framed Portrait (16x24")</li>
+              <li>Priority Editing (Fast Turnaround)</li>
+              <li>Online Gallery Delivery</li>
+            </ul>
+            <a href="contact.html?package=silver" class="btn btn-outline btn-package-book" data-package="Silver Package" id="book-silver-btn">Select Package</a>
+          </div>
+
+          <!-- Package 3: Gold (Featured) -->
+          <div class="package-card featured reveal" style="transition-delay: 0.2s;" id="package-gold-card">
+            <span class="package-badge">Luxury Choice</span>
+            <h3 class="package-name">Gold Package</h3>
+            <p class="package-description">The ultimate editorial visual experience documenting your love story with absolute luxury and care.</p>
+            <div class="package-price">₦800,000 <span>/ Full Story</span></div>
+            <ul class="package-features">
+              <li>Full Luxury Coverage</li>
+              <li>350+ Edited Pictures</li>
+              <li>Pre-Wedding Shoot</li>
+              <li>Premium Photobook (12x12")</li>
+              <li>Framed Portrait (24x36")</li>
+              <li>Same-Day Sneak Peeks</li>
+            </ul>
+            <a href="contact.html?package=gold" class="btn btn-primary btn-package-book" data-package="Gold Package" id="book-gold-btn">Select Package</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Custom Projects Teaser -->
+    <section class="section custom-teaser" style="background-color: var(--bg-secondary); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); text-align: center;">
+      <div class="container" style="max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 2rem;">
+        <span class="section-subtitle">Tailored</span>
+        <h2 class="section-title">Looking for something custom?</h2>
+        <p style="font-size: 1.1rem; line-height: 1.7; color: var(--text-secondary);">
+          Whether it is an intimate destination wedding, corporate celebration, branding project, or personal portrait series, we construct custom packages to suit your specific creative requirements.
+        </p>
+        <a href="contact.html?package=custom" class="btn btn-outline" id="services-custom-btn">Inquire for Custom Quote</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-about">
+          <a href="index.html" class="logo" id="footer-logo">NONIMEDIA <span>CONCEPT</span></a>
+          <p>Preserving timeless memories through intentional storytelling, emotional photography, and premium visual experiences.</p>
+        </div>
+
+        <div class="footer-links">
+          <h4>Navigate</h4>
+          <ul class="footer-menu">
+            <li><a href="index.html" id="footer-home-link">Home</a></li>
+            <li><a href="portfolio.html" id="footer-portfolio-link">Portfolio</a></li>
+            <li><a href="about.html" id="footer-about-link">About</a></li>
+            <li><a href="services.html" id="footer-services-link">Packages</a></li>
+            <li><a href="contact.html" id="footer-contact-link">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h4>Photography</h4>
+          <ul class="footer-menu">
+            <li><a href="portfolio.html?filter=weddings" id="footer-weddings-link">Weddings</a></li>
+            <li><a href="portfolio.html?filter=couples" id="footer-couples-link">Couples</a></li>
+            <li><a href="portfolio.html?filter=portraits" id="footer-portraits-link">Portraits</a></li>
+            <li><a href="portfolio.html?filter=events" id="footer-events-link">Events</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copyright">&copy; 2026 Nonimedia Production Concept. All rights reserved.</p>
+        <div class="footer-info">
+          <span>Based in Nigeria | Available Worldwide</span>
+          <span>Preserved Timelessly</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Main JS file -->
+  <script src="app.js"></script>
+</body>
+</html>
