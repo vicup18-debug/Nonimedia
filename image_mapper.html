@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nonimedia - Visual Asset Manager</title>
+  <style>
+    :root {
+      --bg-primary: #000000;
+      --bg-secondary: #0a0a0a;
+      --bg-tertiary: #121212;
+      --accent: #d4af37;
+      --accent-hover: #e5c158;
+      --text-primary: #f5f2eb;
+      --text-secondary: #cfcbc4;
+      --border-color: rgba(212, 175, 55, 0.15);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      padding: 3rem 1.5rem;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 4rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 2rem;
+    }
+    
+    header h1 {
+      font-size: 2.5rem;
+      color: var(--accent);
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+    
+    header p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+    }
+    
+    .panel {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+    
+    .panel h2 {
+      color: var(--accent);
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      font-weight: 400;
+    }
+    
+    .panel p {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+    
+    textarea {
+      width: 100%;
+      height: 180px;
+      background-color: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      color: #87e287;
+      font-family: monospace;
+      padding: 1rem;
+      font-size: 0.95rem;
+      resize: none;
+      outline: none;
+      margin-bottom: 1rem;
+    }
+    
+    .btn {
+      display: inline-block;
+      background-color: var(--accent);
+      color: var(--bg-primary);
+      font-weight: 600;
+      padding: 0.8rem 2rem;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+      transition: background-color 0.2s ease;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+    }
+    
+    .btn:hover {
+      background-color: var(--accent-hover);
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    
+    .card {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    
+    .image-box {
+      width: 100%;
+      height: 250px;
+      overflow: hidden;
+      background-color: var(--bg-tertiary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    
+    .card:hover img {
+      transform: scale(1.05);
+    }
+    
+    .info {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      flex-grow: 1;
+    }
+    
+    .info h3 {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      word-break: break-all;
+      height: 2.5rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    select {
+      width: 100%;
+      background-color: var(--bg-tertiary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      padding: 0.75rem;
+      outline: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    
+    select option {
+      background-color: var(--bg-secondary);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>NONIMEDIA VISUAL ASSET MANAGER</h1>
+      <p>Assign your real WhatsApp images to your website elements below.</p>
+    </header>
+    
+    <div class="panel">
+      <h2>Generated Renaming Script</h2>
+      <p>Select which slots your WhatsApp images should fill. The PowerShell script below will update in real time. When done, copy and run it in your terminal!</p>
+      <textarea id="script-output" readonly># Assign images below to generate script...</textarea>
+      <button class="btn" onclick="copyScript()">Copy PowerShell Script</button>
+      <span id="copy-status" style="margin-left: 1rem; color: var(--accent); font-weight: 500;"></span>
+    </div>
+    
+    <h2>Source Images (assets/)</h2>
+    <p style="color: var(--text-secondary); margin-bottom: 2rem;">All WhatsApp images detected in your assets folder are listed below:</p>
+    
+    <div class="grid" id="image-grid"></div>
+  </div>
+
+  <script>
+    // List of detected WhatsApp images from git status
+    const images = [
+      "WhatsApp Image 2026-06-17 at 10.17.57 AM.jpeg",
+      "WhatsApp Image 2026-06-17 at 10.17.59 AM (1).jpeg",
+      "WhatsApp Image 2026-06-17 at 10.17.59 AM (2).jpeg",
+      "WhatsApp Image 2026-06-17 at 10.17.59 AM.jpeg",
+      "WhatsApp Image 2026-06-17 at 10.18.00 AM (1).jpeg",
+      "WhatsApp Image 2026-06-17 at 10.18.00 AM.jpeg",
+      "WhatsApp Image 2026-06-17 at 10.18.01 AM.jpeg",
+      "WhatsApp Image 2026-06-17 at 10.18.02 AM (1).jpeg",
+      "WhatsApp Image 2026-06-17 at 10.18.02 AM (2).jpeg",
+      "WhatsApp Image 2026-06-17 at 10.18.02 AM.jpeg",
+      "WhatsApp Image 2026-06-17 at 10.18.03 AM (1).jpeg",
+      "WhatsApp Image 2026-06-17 at 10.18.03 AM.jpeg"
+    ];
+    
+    // Available slots on the site
+    const targets = {
+      "none": "— Select Target Slot —",
+      "hero": "Hero Banner (hero_wedding.png)",
+      "about": "About Profile (portfolio/photographer_profile.png)",
+      "wed1": "Portfolio: Weddings 1 (portfolio/portfolio_wedding.png)",
+      "wed2": "Portfolio: Weddings 2 (portfolio/wedding_couple.png)",
+      "wed3": "Portfolio: Weddings 3 (portfolio/portfolio_wedding_3.png)",
+      "cup1": "Portfolio: Couples 1 (portfolio/portfolio_couple.png)",
+      "cup2": "Portfolio: Couples 2 (portfolio/portfolio_couple_2.png)",
+      "cup3": "Portfolio: Couples 3 (portfolio/portfolio_couple_3.png)",
+      "por1": "Portfolio: Portraits 1 (portfolio/portfolio_portrait.png)",
+      "por2": "Portfolio: Portraits 2 (hero_portrait.png)",
+      "por3": "Portfolio: Portraits 3 (portfolio/portfolio_portrait_3.png)",
+      "eve1": "Portfolio: Events 1 (portfolio/portfolio_event.png)",
+      "eve2": "Portfolio: Events 2 (portfolio/portfolio_event_2.png)",
+      "eve3": "Portfolio: Events 3 (portfolio/portfolio_event_3.png)"
+    };
+    
+    const targetsMapping = {
+      "hero": "assets/hero_wedding.png",
+      "about": "assets/portfolio/photographer_profile.png",
+      "wed1": "assets/portfolio/portfolio_wedding.png",
+      "wed2": "assets/portfolio/wedding_couple.png",
+      "wed3": "assets/portfolio/portfolio_wedding_3.png",
+      "cup1": "assets/portfolio/portfolio_couple.png",
+      "cup2": "assets/portfolio/portfolio_couple_2.png",
+      "cup3": "assets/portfolio/portfolio_couple_3.png",
+      "por1": "assets/portfolio/portfolio_portrait.png",
+      "por2": "assets/hero_portrait.png",
+      "por3": "assets/portfolio/portfolio_portrait_3.png",
+      "eve1": "assets/portfolio/portfolio_event.png",
+      "eve2": "assets/portfolio/portfolio_event_2.png",
+      "eve3": "assets/portfolio/portfolio_event_3.png"
+    };
+
+    const selections = {};
+
+    function renderGrid() {
+      const grid = document.getElementById('image-grid');
+      images.forEach((img, idx) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        
+        const imgBox = document.createElement('div');
+        imgBox.className = 'image-box';
+        const elImg = document.createElement('img');
+        elImg.src = `assets/${img}`;
+        elImg.alt = img;
+        imgBox.appendChild(elImg);
+        
+        const info = document.createElement('div');
+        info.className = 'info';
+        const h3 = document.createElement('h3');
+        h3.textContent = img;
+        
+        const select = document.createElement('select');
+        select.onchange = (e) => handleSelection(img, e.target.value);
+        
+        Object.keys(targets).forEach(key => {
+          const opt = document.createElement('option');
+          opt.value = key;
+          opt.textContent = targets[key];
+          select.appendChild(opt);
+        });
+        
+        info.appendChild(h3);
+        info.appendChild(select);
+        card.appendChild(imgBox);
+        card.appendChild(info);
+        grid.appendChild(card);
+      });
+    }
+
+    function handleSelection(sourceImg, targetKey) {
+      if (targetKey === 'none') {
+        delete selections[sourceImg];
+      } else {
+        // Remove this target if it was selected elsewhere to prevent duplicates
+        Object.keys(selections).forEach(src => {
+          if (selections[src] === targetKey) {
+            delete selections[src];
+            // Reset dropdown for that card
+            updateDropdowns();
+          }
+        });
+        selections[sourceImg] = targetKey;
+      }
+      generateScript();
+    }
+
+    function updateDropdowns() {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        const imgName = card.querySelector('h3').textContent;
+        const select = card.querySelector('select');
+        select.value = selections[imgName] || 'none';
+      });
+    }
+
+    function generateScript() {
+      const output = document.getElementById('script-output');
+      const keys = Object.keys(selections);
+      
+      if (keys.length === 0) {
+        output.value = "# Assign images below to generate script...";
+        return;
+      }
+      
+      let script = `# Copy and paste this script into your PowerShell terminal at:\n`;
+      script += `# c:\\Users\\USER\\Desktop\\VIU\Above\\My websites\\noni-media\n\n`;
+      
+      keys.forEach(src => {
+        const dest = targetsMapping[selections[src]];
+        script += `Copy-Item "assets/${src}" "${dest}" -Force\n`;
+      });
+      
+      output.value = script;
+    }
+
+    function copyScript() {
+      const output = document.getElementById('script-output');
+      output.select();
+      document.execCommand('copy');
+      
+      const status = document.getElementById('copy-status');
+      status.textContent = "Script copied to clipboard!";
+      setTimeout(() => status.textContent = "", 3000);
+    }
+
+    window.onload = renderGrid;
+  </script>
+</body>
+</html>

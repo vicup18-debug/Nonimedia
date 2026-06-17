@@ -7,18 +7,18 @@
 
 :root {
   /* Color Palette */
-  --bg-primary: #0a0a09; /* Deep luxury warm charcoal/black */
-  --bg-secondary: #11100e; /* Subtle warm charcoal/dark beige */
-  --bg-tertiary: #1b1916; /* Deepest warm beige/grey */
-  --accent: #cfb186; /* Warm refined soft gold */
-  --accent-hover: #e3cca9;
-  --accent-nude: #e8dcd0; /* Luxury warm beige/nude tone */
-  --accent-rgb: 207, 177, 134;
-  --text-primary: #f8f6f3; /* Warm soft white */
-  --text-secondary: #c2beba; /* Warm gray */
-  --text-tertiary: #8f8a85; /* Darker warm gray */
-  --border-color: rgba(207, 177, 134, 0.12); /* Gold-tinted transparent borders */
-  --border-focus: rgba(207, 177, 134, 0.45);
+  --bg-primary: #000000; /* Primary: Black */
+  --bg-secondary: #0a0a0a;
+  --bg-tertiary: #121212;
+  --accent: #d4af37; /* Accent: Gold */
+  --accent-hover: #e5c158;
+  --accent-nude: #fbf9f4; /* Secondary: Cream/Off-White */
+  --accent-rgb: 212, 175, 55;
+  --text-primary: #f5f2eb; /* Cream/Off-White Text */
+  --text-secondary: #cfcbc4;
+  --text-tertiary: #9c9993;
+  --border-color: rgba(212, 175, 55, 0.15);
+  --border-focus: rgba(212, 175, 55, 0.5);
   
   /* Glassmorphism */
   --glass-bg: rgba(10, 10, 9, 0.88);
