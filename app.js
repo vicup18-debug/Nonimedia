@@ -35,29 +35,14 @@ document.addEventListener('DOMContentLoaded', () => {
   navLinks.forEach(link => {
     link.addEventListener('click', () => {
       mainNav.classList.remove('active');
+      menuToggle.classList.remove('open');
       const spans = menuToggle.querySelectorAll('span');
       spans[0].style.transform = 'none';
-      if (mainNav.classList.contains('active')) {
-        spans[0].style.transform = 'rotate(45deg) translate(5px, 6px)';
-        spans[1].style.opacity = '0';
-        spans[2].style.transform = 'rotate(-45deg) translate(5px, -6px)';
-      } else {
-        spans[0].style.transform = 'none';
-        spans[1].style.opacity = '1';
-        spans[2].style.transform = 'none';
-      }
+      spans[1].style.opacity = '1';
+      spans[2].style.transform = 'none';
     });
+  });
 
-    navLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        mainNav.classList.remove('active');
-        const spans = menuToggle.querySelectorAll('span');
-        spans[0].style.transform = 'none';
-        spans[1].style.opacity = '1';
-        spans[2].style.transform = 'none';
-      });
-    });
-  }
 
   // ==========================================
   // 2. Active Menu Link Highlighting based on URL
