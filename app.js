@@ -59,7 +59,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   // 3. Scroll Reveal Animations
   // ==========================================
-  const revealElements = document.querySelectorAll('.reveal');
+  // Assign indices to staggered containers on load
+  document.querySelectorAll('.reveal-stagger').forEach(container => {
+    Array.from(container.children).forEach((child, idx) => {
+      child.style.setProperty('--stagger-index', idx);
+    });
+  });
+
+  const revealElements = document.querySelectorAll('.reveal, .reveal-stagger');
   
   if (revealElements.length > 0) {
     const revealObserver = new IntersectionObserver((entries) => {
@@ -78,6 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
       revealObserver.observe(el);
     });
   }
+
 
   // ==========================================
   // 4. Portfolio Filters
