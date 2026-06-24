@@ -10,7 +10,7 @@
   {
     "id": "portfolio-item-1",
     "title": "Intimate Silences",
-    "category": "couples",
+    "category": "pre-wedding",
     "imageUrl": "assets/portfolio/portfolio_couple.webp",
     "alt": "Intimate couple sunset photography by Nonimedia Production Concept",
     "aspect": "tall"
@@ -18,7 +18,7 @@
   {
     "id": "portfolio-item-2",
     "title": "Contrast & Identity",
-    "category": "portraits",
+    "category": "bridal-portraits",
     "imageUrl": "assets/portfolio/portfolio_portrait.webp",
     "alt": "Fine-art high-end portrait photography by Nonimedia Production Concept",
     "aspect": "standard"
@@ -42,7 +42,7 @@
   {
     "id": "portfolio-item-5",
     "title": "Behind the Light",
-    "category": "portraits",
+    "category": "bridal-portraits",
     "imageUrl": "assets/hero_portrait.webp",
     "alt": "Dramatic studio lighting portrait by Nonimedia Production Concept",
     "aspect": "tall"
@@ -50,7 +50,7 @@
   {
     "id": "portfolio-item-6",
     "title": "Quiet Promises",
-    "category": "couples",
+    "category": "pre-wedding",
     "imageUrl": "assets/portfolio/portfolio_couple_2.webp",
     "alt": "Intimate pre-wedding photography by Nonimedia Production Concept",
     "aspect": "standard"
@@ -74,7 +74,7 @@
   {
     "id": "portfolio-item-9",
     "title": "Hold My Hand",
-    "category": "couples",
+    "category": "pre-wedding",
     "imageUrl": "assets/portfolio/portfolio_couple_3.webp",
     "alt": "Intimate couple connection by Nonimedia Production Concept",
     "aspect": "tall"
@@ -82,7 +82,7 @@
   {
     "id": "portfolio-item-10",
     "title": "Serenade & Light",
-    "category": "portraits",
+    "category": "bridal-portraits",
     "imageUrl": "assets/portfolio/portfolio_portrait_3.webp",
     "alt": "Creative studio portrait photography by Nonimedia Production Concept",
     "aspect": "standard"

@@ -302,9 +302,9 @@ function App() {
                   <span className="stat-subtitle">Images in gallery</span>
                 </div>
                 <div className="stat-card">
-                  <span className="stat-label">Portraits</span>
+                  <span className="stat-label">Bridal Portraits</span>
                   <span className="stat-value">
-                    {portfolioItems.filter(item => item.category === 'portraits').length}
+                    {portfolioItems.filter(item => item.category === 'bridal-portraits').length}
                   </span>
                   <span className="stat-subtitle">Images in gallery</span>
                 </div>
@@ -356,8 +356,8 @@ function App() {
                           onChange={(e) => setPortCategory(e.target.value)}
                         >
                           <option value="weddings">Weddings</option>
-                          <option value="couples">Couples</option>
-                          <option value="portraits">Portraits</option>
+                          <option value="pre-wedding">Pre wedding</option>
+                          <option value="bridal-portraits">Bridal portraits</option>
                           <option value="events">Events</option>
                         </select>
                       </div>
