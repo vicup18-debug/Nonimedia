@@ -477,7 +477,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       showStatus('Thank you! Redirecting to WhatsApp to complete your booking...', 'success');
 
-      const businessPhone = '2348030000000';
+      const businessPhone = '2349075830613';
       const formattedDate = new Date(date).toLocaleDateString('en-NG', {
         weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
       });
