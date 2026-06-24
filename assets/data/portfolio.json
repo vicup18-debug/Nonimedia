@@ -1,0 +1,98 @@
+[
+  {
+    "id": "portfolio-item-0",
+    "title": "The Golden Promise",
+    "category": "weddings",
+    "imageUrl": "assets/portfolio/portfolio_wedding.webp",
+    "alt": "Luxury editorial wedding couple photography by Nonimedia Production Concept",
+    "aspect": "wide"
+  },
+  {
+    "id": "portfolio-item-1",
+    "title": "Intimate Silences",
+    "category": "couples",
+    "imageUrl": "assets/portfolio/portfolio_couple.webp",
+    "alt": "Intimate couple sunset photography by Nonimedia Production Concept",
+    "aspect": "tall"
+  },
+  {
+    "id": "portfolio-item-2",
+    "title": "Contrast & Identity",
+    "category": "portraits",
+    "imageUrl": "assets/portfolio/portfolio_portrait.webp",
+    "alt": "Fine-art high-end portrait photography by Nonimedia Production Concept",
+    "aspect": "standard"
+  },
+  {
+    "id": "portfolio-item-3",
+    "title": "A Night of Grandeur",
+    "category": "events",
+    "imageUrl": "assets/portfolio/portfolio_event.webp",
+    "alt": "Luxury wedding reception event by Nonimedia Production Concept",
+    "aspect": "wide"
+  },
+  {
+    "id": "portfolio-item-4",
+    "title": "Cultural Heritage",
+    "category": "weddings",
+    "imageUrl": "assets/portfolio/wedding_couple.webp",
+    "alt": "Traditional wedding couple ceremony by Nonimedia Production Concept",
+    "aspect": "standard"
+  },
+  {
+    "id": "portfolio-item-5",
+    "title": "Behind the Light",
+    "category": "portraits",
+    "imageUrl": "assets/hero_portrait.webp",
+    "alt": "Dramatic studio lighting portrait by Nonimedia Production Concept",
+    "aspect": "tall"
+  },
+  {
+    "id": "portfolio-item-6",
+    "title": "Quiet Promises",
+    "category": "couples",
+    "imageUrl": "assets/portfolio/portfolio_couple_2.webp",
+    "alt": "Intimate pre-wedding photography by Nonimedia Production Concept",
+    "aspect": "standard"
+  },
+  {
+    "id": "portfolio-item-7",
+    "title": "The Dancing Floor",
+    "category": "events",
+    "imageUrl": "assets/portfolio/portfolio_event_2.webp",
+    "alt": "Luxury event reception celebration by Nonimedia Production Concept",
+    "aspect": "standard"
+  },
+  {
+    "id": "portfolio-item-8",
+    "title": "Laughter in Gold",
+    "category": "weddings",
+    "imageUrl": "assets/portfolio/portfolio_wedding_3.webp",
+    "alt": "Luxury editorial wedding celebration by Nonimedia Production Concept",
+    "aspect": "wide"
+  },
+  {
+    "id": "portfolio-item-9",
+    "title": "Hold My Hand",
+    "category": "couples",
+    "imageUrl": "assets/portfolio/portfolio_couple_3.webp",
+    "alt": "Intimate couple connection by Nonimedia Production Concept",
+    "aspect": "tall"
+  },
+  {
+    "id": "portfolio-item-10",
+    "title": "Serenade & Light",
+    "category": "portraits",
+    "imageUrl": "assets/portfolio/portfolio_portrait_3.webp",
+    "alt": "Creative studio portrait photography by Nonimedia Production Concept",
+    "aspect": "standard"
+  },
+  {
+    "id": "portfolio-item-11",
+    "title": "Celebration of Love",
+    "category": "events",
+    "imageUrl": "assets/portfolio/portfolio_event_3.webp",
+    "alt": "Premium luxury event by Nonimedia Production Concept",
+    "aspect": "wide"
+  }
+]

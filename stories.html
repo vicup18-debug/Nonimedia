@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Journal | Nonimedia Production Concept</title>
+  <meta name="description" content="Read the visual stories, behind the scenes, and luxury wedding narratives preserved by Nonimedia Production Concept.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📷</text></svg>">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Header / Navigation -->
+  <header class="header scrolled" id="main-header">
+    <div class="container header-container">
+      <a href="index.html" class="logo" id="header-logo">NONIMEDIA <span>CONCEPT</span></a>
+      
+      <nav class="nav" id="main-nav">
+        <a href="index.html" class="nav-link" id="nav-home-link">Home</a>
+        <a href="portfolio.html" class="nav-link" id="nav-portfolio-link">Portfolio</a>
+        <a href="stories.html" class="nav-link active" id="nav-stories-link">Journal</a>
+        <a href="about.html" class="nav-link" id="nav-about-link">About</a>
+        <a href="services.html" class="nav-link" id="nav-services-link">Packages</a>
+        <a href="contact.html" class="nav-link" id="nav-contact-link">Contact</a>
+      </nav>
+
+      <button class="menu-toggle" id="menu-toggle-btn" aria-label="Toggle Navigation Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Page Header (Dynamic: Hidden in Detail View if needed, but nice to keep or modify) -->
+    <section class="page-header" id="stories-page-header">
+      <div class="container">
+        <p id="stories-page-subtitle">Our Journal</p>
+        <h1 id="stories-page-title">Stories & Moments</h1>
+      </div>
+    </section>
+
+    <!-- Stories Listing Section -->
+    <section class="section stories-section" id="stories-section" style="padding-top: 5rem; min-height: 50vh;">
+      <div class="container">
+        
+        <!-- Grid View of Stories -->
+        <div class="stories-grid reveal-stagger" id="stories-grid">
+          <!-- Dynamically populated by app.js -->
+        </div>
+
+        <!-- Detail View of Single Story -->
+        <div class="story-detail-container" id="story-detail-container" style="display: none;">
+          <!-- Dynamically populated by app.js -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Booking CTA -->
+    <section class="section connect-cta" style="border-top: 1px solid var(--border-color);">
+      <div class="container connect-cta-container">
+        <div class="connect-cta-content reveal reveal-fade-up">
+          <span class="section-subtitle">Let's Connect</span>
+          <h2 class="section-title">Want Your Story Preserved?</h2>
+          <p class="connect-cta-text">
+            If you connect with our visual style, let us preserve your moments timelessly.
+          </p>
+          <a href="contact.html" class="btn btn-primary" id="stories-cta-booking-btn">Begin Your Inquiry</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-about">
+          <a href="index.html" class="logo" id="footer-logo">NONIMEDIA <span>CONCEPT</span></a>
+          <p>Preserving timeless memories through intentional storytelling, emotional photography, and premium visual experiences.</p>
+        </div>
+
+        <div class="footer-links">
+          <h4>Navigate</h4>
+          <ul class="footer-menu">
+            <li><a href="index.html" id="footer-home-link">Home</a></li>
+            <li><a href="portfolio.html" id="footer-portfolio-link">Portfolio</a></li>
+            <li><a href="stories.html" id="footer-stories-link">Journal</a></li>
+            <li><a href="about.html" id="footer-about-link">About</a></li>
+            <li><a href="services.html" id="footer-services-link">Packages</a></li>
+            <li><a href="contact.html" id="footer-contact-link">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h4>Photography</h4>
+          <ul class="footer-menu">
+            <li><a href="portfolio.html?filter=weddings" id="footer-weddings-link">Weddings</a></li>
+            <li><a href="portfolio.html?filter=couples" id="footer-couples-link">Couples</a></li>
+            <li><a href="portfolio.html?filter=portraits" id="footer-portraits-link">Portraits</a></li>
+            <li><a href="portfolio.html?filter=events" id="footer-events-link">Events</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copyright">&copy; 2026 Nonimedia Production Concept. All rights reserved.</p>
+        <div class="footer-info">
+          <span>Based in Nigeria | Available Worldwide</span>
+          <span>Preserved Timelessly</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Main JS file -->
+  <script src="app.js"></script>
+</body>
+</html>

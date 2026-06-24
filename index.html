@@ -38,6 +38,7 @@
       <nav class="nav" id="main-nav">
         <a href="index.html" class="nav-link active" id="nav-home-link">Home</a>
         <a href="portfolio.html" class="nav-link" id="nav-portfolio-link">Portfolio</a>
+        <a href="stories.html" class="nav-link" id="nav-stories-link">Journal</a>
         <a href="about.html" class="nav-link" id="nav-about-link">About</a>
         <a href="services.html" class="nav-link" id="nav-services-link">Packages</a>
         <a href="contact.html" class="nav-link" id="nav-contact-link">Contact</a>
@@ -100,41 +101,8 @@
         </div>
 
         <!-- Portfolio Grid (Curated Home Preview) -->
-        <div class="portfolio-grid reveal-stagger">
-          
-          <!-- Item 1: Wedding -->
-          <div class="portfolio-item wide weddings" data-index="0" id="portfolio-item-0">
-            <div class="portfolio-item-inner">
-              <img src="assets/portfolio/portfolio_wedding.webp" alt="Luxury editorial wedding couple photography by Nonimedia Production Concept" loading="lazy">
-              <div class="portfolio-overlay">
-                <span class="portfolio-category">Weddings</span>
-                <h3 class="portfolio-title">The Golden Promise</h3>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 2: Couples -->
-          <div class="portfolio-item tall couples" data-index="1" id="portfolio-item-1">
-            <div class="portfolio-item-inner">
-              <img src="assets/portfolio/portfolio_couple.webp" alt="Intimate couple sunset photography by Nonimedia Production Concept" loading="lazy">
-              <div class="portfolio-overlay">
-                <span class="portfolio-category">Couples</span>
-                <h3 class="portfolio-title">Intimate Silences</h3>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 3: Portraits -->
-          <div class="portfolio-item portraits" data-index="2" id="portfolio-item-2">
-            <div class="portfolio-item-inner">
-              <img src="assets/portfolio/portfolio_portrait.webp" alt="Fine-art high-end portrait photography by Nonimedia Production Concept" loading="lazy">
-              <div class="portfolio-overlay">
-                <span class="portfolio-category">Portraits</span>
-                <h3 class="portfolio-title">Contrast & Identity</h3>
-              </div>
-            </div>
-          </div>
-
+        <div class="portfolio-grid reveal-stagger" id="portfolio-grid-featured">
+          <!-- Dynamically populated by app.js -->
         </div>
 
         <div class="reveal reveal-fade-up" style="text-align: center; margin-top: 4rem;">
@@ -293,6 +261,7 @@
           <ul class="footer-menu">
             <li><a href="index.html" id="footer-home-link">Home</a></li>
             <li><a href="portfolio.html" id="footer-portfolio-link">Portfolio</a></li>
+            <li><a href="stories.html" id="footer-stories-link">Journal</a></li>
             <li><a href="about.html" id="footer-about-link">About</a></li>
             <li><a href="services.html" id="footer-services-link">Packages</a></li>
             <li><a href="contact.html" id="footer-contact-link">Contact</a></li>

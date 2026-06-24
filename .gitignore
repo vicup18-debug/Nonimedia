@@ -1,0 +1,14 @@
+# Python Virtual Environment & Cache
+backend/.venv/
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# Node dependencies and build folders
+admin/node_modules/
+admin/dist/
+
+# Local logs & OS Files
+*.log
+.DS_Store
+Thumbs.db
