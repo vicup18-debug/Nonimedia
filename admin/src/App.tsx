@@ -19,13 +19,18 @@ interface Story {
   content: string;
 }
 
-const API_BASE = 'http://127.0.0.1:8000';
+const DEFAULT_API_BASE = 'http://127.0.0.1:8000';
 
 function App() {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'portfolio' | 'stories'>('dashboard');
   const [portfolioItems, setPortfolioItems] = useState<PortfolioItem[]>([]);
   const [stories, setStories] = useState<Story[]>([]);
   
+  // API URL State
+  const [apiUrl, setApiUrl] = useState(() => {
+    return localStorage.getItem('nonimedia_api_url') || DEFAULT_API_BASE;
+  });
+
   // Loading & Error States
   const [loadingPortfolio, setLoadingPortfolio] = useState(false);
   const [loadingStories, setLoadingStories] = useState(false);
@@ -51,8 +56,9 @@ function App() {
   // Fetch Data
   const fetchPortfolio = async () => {
     setLoadingPortfolio(true);
+    setErrorMsg('');
     try {
-      const res = await fetch(`${API_BASE}/api/portfolio`);
+      const res = await fetch(`${apiUrl}/api/portfolio`);
       if (res.ok) {
         const data = await res.json();
         setPortfolioItems(data);
@@ -61,7 +67,7 @@ function App() {
       }
     } catch (err: any) {
       console.error(err);
-      setErrorMsg('Could not connect to API server. Make sure the backend FastAPI app is running on port 8000.');
+      setErrorMsg(`Could not connect to API server at ${apiUrl}. Make sure your cloud backend is active and running.`);
     } finally {
       setLoadingPortfolio(false);
     }
@@ -69,8 +75,9 @@ function App() {
 
   const fetchStories = async () => {
     setLoadingStories(true);
+    setErrorMsg('');
     try {
-      const res = await fetch(`${API_BASE}/api/stories`);
+      const res = await fetch(`${apiUrl}/api/stories`);
       if (res.ok) {
         const data = await res.json();
         setStories(data);
@@ -79,7 +86,7 @@ function App() {
       }
     } catch (err: any) {
       console.error(err);
-      setErrorMsg('Could not connect to API server. Make sure the backend FastAPI app is running on port 8000.');
+      setErrorMsg(`Could not connect to API server at ${apiUrl}. Make sure your cloud backend is active and running.`);
     } finally {
       setLoadingStories(false);
     }
@@ -88,7 +95,7 @@ function App() {
   useEffect(() => {
     fetchPortfolio();
     fetchStories();
-  }, []);
+  }, [apiUrl]);
 
   const handleMessage = (type: 'success' | 'error', text: string) => {
     if (type === 'success') {
@@ -118,7 +125,7 @@ function App() {
     formData.append('file', portFile);
 
     try {
-      const res = await fetch(`${API_BASE}/api/portfolio`, {
+      const res = await fetch(`${apiUrl}/api/portfolio`, {
         method: 'POST',
         body: formData,
       });
@@ -128,10 +135,9 @@ function App() {
         setPortfolioItems((prev) => [...prev, newItem]);
         setPortTitle('');
         setPortFile(null);
-        // Reset file input element visually
         const fileInput = document.getElementById('portfolio-file-input') as HTMLInputElement;
         if (fileInput) fileInput.value = '';
-        handleMessage('success', `Successfully uploaded "${portTitle}" and compressed to WebP!`);
+        handleMessage('success', `Successfully uploaded "${portTitle}" to database and compressed to WebP!`);
       } else {
         const data = await res.json();
         throw new Error(data.detail || 'Failed to upload portfolio item');
@@ -146,12 +152,12 @@ function App() {
 
   // Delete Portfolio Item
   const handleDeletePortfolio = async (id: string, title: string) => {
-    if (!window.confirm(`Are you sure you want to delete "${title}"? This will remove the image file from disk.`)) {
+    if (!window.confirm(`Are you sure you want to delete "${title}"? This will remove the image file.`)) {
       return;
     }
 
     try {
-      const res = await fetch(`${API_BASE}/api/portfolio/${id}`, {
+      const res = await fetch(`${apiUrl}/api/portfolio/${id}`, {
         method: 'DELETE',
       });
 
@@ -187,7 +193,7 @@ function App() {
     }
 
     try {
-      const res = await fetch(`${API_BASE}/api/stories`, {
+      const res = await fetch(`${apiUrl}/api/stories`, {
         method: 'POST',
         body: formData,
       });
@@ -199,7 +205,6 @@ function App() {
         setStoryExcerpt('');
         setStoryContent('');
         setStoryFile(null);
-        // Reset file input element visually
         const fileInput = document.getElementById('story-file-input') as HTMLInputElement;
         if (fileInput) fileInput.value = '';
         handleMessage('success', `Successfully published story "${storyTitle}"!`);
@@ -222,7 +227,7 @@ function App() {
     }
 
     try {
-      const res = await fetch(`${API_BASE}/api/stories/${id}`, {
+      const res = await fetch(`${apiUrl}/api/stories/${id}`, {
         method: 'DELETE',
       });
 
@@ -243,10 +248,27 @@ function App() {
       {/* Header */}
       <header className="admin-header">
         <div className="admin-container header-flex">
-          <div className="logo-group">
+          <div className="logo-group" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
             <h1 className="logo">NONIMEDIA <span>CONCEPT</span></h1>
             <span className="badge">Admin Portal</span>
+            
+            {/* Live API Configurator */}
+            <div className="api-config" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(212, 175, 55, 0.05)', border: '1px solid var(--border-color)', borderRadius: '4px', padding: '0.2rem 0.6rem' }}>
+              <label htmlFor="api-url-input" style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: 'var(--accent)', letterSpacing: '0.05em', cursor: 'pointer' }}>API Endpoint:</label>
+              <input 
+                type="text" 
+                id="api-url-input" 
+                value={apiUrl} 
+                onChange={(e) => {
+                  setApiUrl(e.target.value);
+                  localStorage.setItem('nonimedia_api_url', e.target.value);
+                }} 
+                style={{ background: 'none', border: 'none', color: 'var(--text-primary)', fontSize: '0.8rem', width: '220px', outline: 'none', fontFamily: 'monospace' }}
+                placeholder="http://127.0.0.1:8000"
+              />
+            </div>
           </div>
+          
           <nav className="admin-nav">
             <button 
               className={`nav-btn ${activeTab === 'dashboard' ? 'active' : ''}`}
@@ -311,17 +333,17 @@ function App() {
               </div>
 
               <div className="info-block">
-                <h3>Jamstack & Git Workflow Guide</h3>
+                <h3>Jamstack & Cloud-Hosted API Workflow Guide</h3>
                 <p>
-                  This system works in a <strong>decoupled mode</strong>. Changes you make here are immediately written to your local project database files:
+                  Your admin panel is now prepared for **cloud hosting**. When running live (e.g. hosted on Render), it writes additions directly to GitHub via the API:
                 </p>
                 <ul>
-                  <li>Portfolio items database: <code>assets/data/portfolio.json</code></li>
-                  <li>Journal/Stories database: <code>assets/data/stories.json</code></li>
-                  <li>Compressed WebP image files: <code>assets/portfolio/</code></li>
+                  <li><strong>API Endpoint:</strong> Enter your live backend URL (e.g., <code>https://nonimedia-cms.onrender.com</code>) in the input header above.</li>
+                  <li><strong>GitHub Commits:</strong> Edits automatically trigger background commits to your repository under <code>assets/data/</code> and <code>assets/portfolio/</code>.</li>
+                  <li><strong>Auto-Rebuild:</strong> Commits automatically trigger GitHub Pages to deploy your live website instantly.</li>
                 </ul>
                 <p>
-                  To push these updates to your live public website, simply perform a <strong>git commit</strong> and <strong>push</strong>. The static site hosted on GitHub Pages will instantly update with your changes!
+                  To set up your live cloud backend on Render, simply create a new service, set <code>GITHUB_TOKEN</code>, <code>GITHUB_OWNER</code>, and <code>GITHUB_REPO</code> in the environment variables, and the API will handle the rest!
                 </p>
               </div>
             </div>
@@ -408,7 +430,7 @@ function App() {
                       {portfolioItems.map((item) => (
                         <div key={item.id} className="admin-portfolio-card">
                           <div className="thumb-box">
-                            <img src={`${API_BASE}/${item.imageUrl}`} alt={item.title} />
+                            <img src={`${apiUrl}/${item.imageUrl}`} alt={item.title} />
                           </div>
                           <div className="card-details">
                             <h4 className="card-title">{item.title}</h4>
@@ -532,7 +554,7 @@ function App() {
                       {stories.map((story) => (
                         <div key={story.id} className="admin-story-card">
                           <div className="thumb-box-wide">
-                            <img src={`${API_BASE}/${story.coverImage}`} alt={story.title} />
+                            <img src={`${apiUrl}/${story.coverImage}`} alt={story.title} />
                           </div>
                           <div className="story-details">
                             <h4 className="story-title">{story.title}</h4>
@@ -560,7 +582,7 @@ function App() {
       {/* Footer */}
       <footer className="admin-footer">
         <div className="admin-container">
-          <p>&copy; 2026 Nonimedia Production Concept. Local CMS Dashboard.</p>
+          <p>&copy; 2026 Nonimedia Production Concept. Cloud CMS Dashboard.</p>
         </div>
       </footer>
     </div>
