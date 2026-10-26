@@ -3,9 +3,13 @@ import json
 import uuid
 import base64
 import io
+import hmac
+import time
+import hashlib
+import secrets
 import requests
 from typing import Optional
-from fastapi import FastAPI, File, UploadFile, Form, HTTPException
+from fastapi import FastAPI, File, UploadFile, Form, HTTPException, Depends, Header, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse, FileResponse
 from pydantic import BaseModel
@@ -16,6 +20,21 @@ GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 GITHUB_OWNER = os.environ.get("GITHUB_OWNER", "vicup18-debug")
 GITHUB_REPO = os.environ.get("GITHUB_REPO", "Nonimedia")
 GITHUB_BRANCH = os.environ.get("GITHUB_BRANCH", "main")
+
+# Admin login
+# ADMIN_PASSWORD is required for any upload/edit/delete. If it is not set, all write
+# endpoints refuse requests (fail closed) instead of being open to the public.
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "")
+# SECRET_KEY signs login tokens. If not set, it is derived from ADMIN_PASSWORD, so
+# changing the password signs everyone out.
+SECRET_KEY = os.environ.get("SECRET_KEY") or (
+    hashlib.sha256(f"nonimedia-session:{ADMIN_PASSWORD}".encode("utf-8")).hexdigest()
+    if ADMIN_PASSWORD else secrets.token_hex(32)
+)
+TOKEN_TTL_SECONDS = int(os.environ.get("TOKEN_TTL_HOURS", "12")) * 3600
+# Comma-separated list of sites allowed to call this API from a browser,
+# e.g. "https://vicup18-debug.github.io". Defaults to any origin.
+ALLOWED_ORIGINS = [o.strip() for o in os.environ.get("ALLOWED_ORIGINS", "*").split(",") if o.strip()]
 
 # Initialize directories relative to this file (Local Mode Fallback)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -28,6 +47,13 @@ os.makedirs(PORTFOLIO_IMG_DIR, exist_ok=True)
 
 PORTFOLIO_JSON = os.path.join(DATA_DIR, "portfolio.json")
 STORIES_JSON = os.path.join(DATA_DIR, "stories.json")
+PACKAGES_JSON = os.path.join(DATA_DIR, "packages.json")
+
+DEFAULT_PACKAGES = [
+    {"id": "bronze", "name": "Bronze Package", "price": 300000},
+    {"id": "silver", "name": "Silver Package", "price": 500000},
+    {"id": "gold", "name": "Gold Package", "price": 800000},
+]
 
 # Initialize local fallback databases if missing
 if not os.path.exists(PORTFOLIO_JSON):
@@ -36,17 +62,113 @@ if not os.path.exists(PORTFOLIO_JSON):
 if not os.path.exists(STORIES_JSON):
     with open(STORIES_JSON, "w") as f:
         json.dump([], f)
+if not os.path.exists(PACKAGES_JSON):
+    with open(PACKAGES_JSON, "w") as f:
+        json.dump(DEFAULT_PACKAGES, f, indent=2)
 
 app = FastAPI(title="Nonimedia CMS Cloud API")
 
 # Enable CORS for localhost and live admin dashboard connections
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=ALLOWED_ORIGINS,
+    allow_credentials=False,  # auth uses a Bearer header, not cookies
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type"],
 )
+
+# ==========================================
+# Admin Authentication
+# ==========================================
+MAX_FAILED_PER_CLIENT = 5        # failed attempts allowed per client...
+MAX_FAILED_GLOBAL = 50           # ...and across all clients...
+FAILED_WINDOW_SECONDS = 15 * 60  # ...within this window
+_failed_logins: dict = {}
+
+
+def _sign(payload: str) -> str:
+    return hmac.new(SECRET_KEY.encode("utf-8"), payload.encode("utf-8"), hashlib.sha256).hexdigest()
+
+
+def create_token() -> tuple:
+    expires_at = int(time.time()) + TOKEN_TTL_SECONDS
+    payload = f"admin.{expires_at}.{secrets.token_hex(8)}"
+    return f"{payload}.{_sign(payload)}", expires_at
+
+
+def verify_token(token: str) -> bool:
+    parts = token.split(".")
+    if len(parts) != 4 or parts[0] != "admin":
+        return False
+    payload, signature = ".".join(parts[:3]), parts[3]
+    if not hmac.compare_digest(_sign(payload), signature):
+        return False
+    try:
+        return int(parts[1]) > time.time()
+    except ValueError:
+        return False
+
+
+def _auth_not_configured():
+    return HTTPException(
+        status_code=503,
+        detail="Admin login is not configured on the server. Set the ADMIN_PASSWORD environment variable and restart the backend.",
+    )
+
+
+def require_admin(authorization: Optional[str] = Header(None)):
+    """Dependency that blocks any request without a valid admin token."""
+    if not ADMIN_PASSWORD:
+        raise _auth_not_configured()
+    if not authorization or not authorization.lower().startswith("bearer "):
+        raise HTTPException(status_code=401, detail="Please sign in to continue.",
+                            headers={"WWW-Authenticate": "Bearer"})
+    if not verify_token(authorization[7:].strip()):
+        raise HTTPException(status_code=401, detail="Your session has expired. Please sign in again.",
+                            headers={"WWW-Authenticate": "Bearer"})
+
+
+def _client_key(request: Request) -> str:
+    forwarded = request.headers.get("x-forwarded-for")
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    return request.client.host if request.client else "unknown"
+
+
+def _recent(attempts: list, now: float) -> list:
+    return [t for t in attempts if now - t < FAILED_WINDOW_SECONDS]
+
+
+class LoginRequest(BaseModel):
+    password: str
+
+
+@app.post("/api/login")
+def login(payload: LoginRequest, request: Request):
+    if not ADMIN_PASSWORD:
+        raise _auth_not_configured()
+
+    now = time.time()
+    key = _client_key(request)
+    client_attempts = _recent(_failed_logins.get(key, []), now)
+    global_attempts = _recent(_failed_logins.get("__all__", []), now)
+    if len(client_attempts) >= MAX_FAILED_PER_CLIENT or len(global_attempts) >= MAX_FAILED_GLOBAL:
+        raise HTTPException(status_code=429, detail="Too many failed sign-in attempts. Please wait 15 minutes and try again.")
+
+    if not hmac.compare_digest(payload.password.encode("utf-8"), ADMIN_PASSWORD.encode("utf-8")):
+        _failed_logins[key] = client_attempts + [now]
+        _failed_logins["__all__"] = global_attempts + [now]
+        time.sleep(1)  # slow down guessing
+        raise HTTPException(status_code=401, detail="Incorrect password.")
+
+    _failed_logins.pop(key, None)
+    token, expires_at = create_token()
+    return {"token": token, "expiresAt": expires_at}
+
+
+@app.get("/api/session")
+def check_session(_: None = Depends(require_admin)):
+    return {"status": "ok"}
 
 # ==========================================
 # GitHub REST API Client Helper
@@ -122,6 +244,9 @@ if GITHUB_TOKEN:
     print(f"--- Running in CLOUD Mode (GitHub Integration Active: {GITHUB_OWNER}/{GITHUB_REPO}) ---")
 else:
     print("--- Running in LOCAL Mode (Disk writes active) ---")
+
+if not ADMIN_PASSWORD:
+    print("--- WARNING: ADMIN_PASSWORD is not set. Uploads, edits and deletes are DISABLED until it is set. ---")
 
 # ==========================================
 # Helper functions for Local mode
@@ -202,7 +327,8 @@ async def add_portfolio_item(
     title: str = Form(...),
     category: str = Form(...),
     aspect: str = Form("standard"),
-    file: UploadFile = File(...)
+    file: UploadFile = File(...),
+    _: None = Depends(require_admin),
 ):
     file_bytes = await file.read()
     compressed_bytes = compress_image_bytes(file_bytes, file.filename)
@@ -250,7 +376,7 @@ async def add_portfolio_item(
     return new_item
 
 @app.put("/api/portfolio/{item_id}")
-def update_portfolio_item(item_id: str, payload: PortfolioUpdate):
+def update_portfolio_item(item_id: str, payload: PortfolioUpdate, _: None = Depends(require_admin)):
     if github_client:
         content, sha = github_client.get_file("assets/data/portfolio.json")
         items = json.loads(content.decode("utf-8")) if content else []
@@ -283,7 +409,7 @@ def update_portfolio_item(item_id: str, payload: PortfolioUpdate):
         raise HTTPException(status_code=404, detail="Item not found")
 
 @app.delete("/api/portfolio/{item_id}")
-def delete_portfolio_item(item_id: str):
+def delete_portfolio_item(item_id: str, _: None = Depends(require_admin)):
     if github_client:
         # Get portfolio JSON database
         content, sha = github_client.get_file("assets/data/portfolio.json")
@@ -349,7 +475,8 @@ async def add_story(
     excerpt: str = Form(...),
     category: str = Form(...),
     content: str = Form(...),
-    file: Optional[UploadFile] = File(None)
+    file: Optional[UploadFile] = File(None),
+    _: None = Depends(require_admin),
 ):
     cover_image_url = "assets/hero_wedding.webp"  # Default fallback
     compressed_bytes = None
@@ -403,7 +530,7 @@ async def add_story(
     return new_story
 
 @app.delete("/api/stories/{story_id}")
-def delete_story(story_id: str):
+def delete_story(story_id: str, _: None = Depends(require_admin)):
     if github_client:
         # Get stories JSON database
         db_content, sha = github_client.get_file("assets/data/stories.json")
@@ -450,6 +577,56 @@ def delete_story(story_id: str):
                 save_local_json(STORIES_JSON, stories)
                 return {"status": "success", "message": f"Deleted story {removed_story['title']}"}
         raise HTTPException(status_code=404, detail="Story not found")
+
+# ==========================================
+# Package Pricing Endpoints
+# ==========================================
+PACKAGES_REPO_PATH = "assets/data/packages.json"
+MAX_PRICE = 1_000_000_000
+
+
+class PackagePriceUpdate(BaseModel):
+    price: int
+
+
+def _load_packages():
+    """Returns (packages, sha). sha is only used in cloud mode."""
+    if github_client:
+        content, sha = github_client.get_file(PACKAGES_REPO_PATH)
+        if content:
+            return json.loads(content.decode("utf-8")), sha
+        return [dict(p) for p in DEFAULT_PACKAGES], None
+    items = load_local_json(PACKAGES_JSON)
+    return (items if items else [dict(p) for p in DEFAULT_PACKAGES]), None
+
+
+@app.get("/api/packages")
+def get_packages():
+    packages, _ = _load_packages()
+    return packages
+
+
+@app.put("/api/packages/{package_id}")
+def update_package_price(package_id: str, payload: PackagePriceUpdate, _: None = Depends(require_admin)):
+    if payload.price <= 0 or payload.price > MAX_PRICE:
+        raise HTTPException(status_code=422, detail="Please enter a price greater than zero.")
+
+    packages, sha = _load_packages()
+    for pkg in packages:
+        if pkg["id"] == package_id:
+            pkg["price"] = payload.price
+            if github_client:
+                github_client.commit_file(
+                    PACKAGES_REPO_PATH,
+                    json.dumps(packages, indent=2).encode("utf-8"),
+                    f"Update {pkg['name']} price to NGN {payload.price:,}",
+                    sha,
+                )
+            else:
+                save_local_json(PACKAGES_JSON, packages)
+            return pkg
+    raise HTTPException(status_code=404, detail="Package not found")
+
 
 # Run FastAPI via Uvicorn if script run directly
 if __name__ == "__main__":

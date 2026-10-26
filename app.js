@@ -433,6 +433,46 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================
+  // 8a. Live Package Prices (edited from the admin dashboard)
+  // ==========================================
+  const priceElements = document.querySelectorAll('[data-package-price]');
+
+  if (priceElements.length > 0) {
+    const formatFull = (n) => '₦' + Number(n).toLocaleString('en-US');
+    const formatShort = (n) => {
+      if (n >= 1000000) return '₦' + parseFloat((n / 1000000).toFixed(2)) + 'm';
+      if (n >= 1000) return '₦' + parseFloat((n / 1000).toFixed(1)) + 'k';
+      return '₦' + n;
+    };
+
+    fetch('assets/data/packages.json', { cache: 'no-cache' })
+      .then(response => response.json())
+      .then(packages => {
+        const byId = {};
+        packages.forEach(pkg => { byId[pkg.id] = pkg; });
+
+        priceElements.forEach(el => {
+          const pkg = byId[el.getAttribute('data-package-price')];
+          if (!pkg || typeof pkg.price !== 'number') return;
+
+          if (el.tagName === 'OPTION') {
+            el.textContent = `${pkg.name} (${formatShort(pkg.price)})`;
+            return;
+          }
+
+          // Replace only the amount, keeping any "/ Coverage" label inside
+          const amountNode = Array.from(el.childNodes).find(
+            node => node.nodeType === Node.TEXT_NODE && node.textContent.trim()
+          );
+          const amount = formatFull(pkg.price) + (el.children.length ? ' ' : '');
+          if (amountNode) amountNode.textContent = amount;
+          else el.prepend(document.createTextNode(amount));
+        });
+      })
+      .catch(err => console.error('Error loading package prices:', err));
+  }
+
+  // ==========================================
   // 8. Booking & WhatsApp Redirection
   // ==========================================
   const bookingForm = document.getElementById('booking-form');

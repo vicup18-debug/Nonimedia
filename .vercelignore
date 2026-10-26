@@ -1,0 +1,4 @@
+# Source folders that should not be published on the website
+# (the dashboard/ folder holds the built admin panel and stays public)
+backend/
+admin/

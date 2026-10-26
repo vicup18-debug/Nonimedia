@@ -279,6 +279,7 @@ body {
 }
 
 .form-group input[type="text"],
+.form-group input[type="password"],
 .form-group input[type="date"],
 .form-group select,
 .form-group textarea {
@@ -597,4 +598,88 @@ body {
   .thumb-box-wide {
     max-width: 300px;
   }
+}
+
+
+/* Login Screen */
+.login-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background: radial-gradient(circle at top, rgba(212, 175, 55, 0.08), transparent 60%), var(--bg-primary);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 2.5rem 2rem;
+}
+
+.login-brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.login-intro {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 1.75rem;
+}
+
+.login-error {
+  border: 1px solid var(--error);
+  color: var(--error);
+  background-color: rgba(207, 102, 121, 0.08);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
+}
+
+.login-card .btn {
+  width: 100%;
+}
+
+.nav-btn-signout {
+  border-left: 1px solid var(--border-color);
+  padding-left: 1.25rem;
+  white-space: nowrap;
+}
+
+/* Package Prices Tab */
+.tab-intro {
+  color: var(--text-secondary);
+  margin: -1.25rem 0 2rem;
+  font-size: 0.95rem;
+}
+
+.packages-admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.package-price-card .card-title {
+  margin-bottom: 0.25rem;
+}
+
+.current-price {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+
+.package-price-card .btn {
+  width: 100%;
 }

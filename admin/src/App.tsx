@@ -19,17 +19,64 @@ interface Story {
   content: string;
 }
 
+interface PricePackage {
+  id: string;
+  name: string;
+  price: number;
+}
+
+const formatNaira = (amount: number) => `₦${amount.toLocaleString('en-US')}`;
+const parsePriceInput = (value: string) => Number(value.replace(/[^\d]/g, ''));
+
 const DEFAULT_API_BASE = 'http://127.0.0.1:8000';
+const TOKEN_KEY = 'nonimedia_admin_token';
+const TOKEN_EXP_KEY = 'nonimedia_admin_token_exp';
+const SESSION_EXPIRED_MSG = 'Your session has expired. Please sign in again.';
+
+function readStoredToken(): string | null {
+  try {
+    const token = localStorage.getItem(TOKEN_KEY);
+    const expiresAt = Number(localStorage.getItem(TOKEN_EXP_KEY) || 0);
+    if (token && expiresAt * 1000 > Date.now()) return token;
+  } catch {
+    // Storage unavailable (private mode etc.) - user just signs in again
+  }
+  return null;
+}
+
+function storeToken(token: string | null, expiresAt?: number) {
+  try {
+    if (token) {
+      localStorage.setItem(TOKEN_KEY, token);
+      localStorage.setItem(TOKEN_EXP_KEY, String(expiresAt ?? 0));
+    } else {
+      localStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem(TOKEN_EXP_KEY);
+    }
+  } catch {
+    // Ignore storage errors
+  }
+}
 
 function App() {
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'portfolio' | 'stories'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'portfolio' | 'stories' | 'packages'>('dashboard');
   const [portfolioItems, setPortfolioItems] = useState<PortfolioItem[]>([]);
   const [stories, setStories] = useState<Story[]>([]);
+  const [packages, setPackages] = useState<PricePackage[]>([]);
+  const [priceDrafts, setPriceDrafts] = useState<Record<string, string>>({});
+  const [loadingPackages, setLoadingPackages] = useState(false);
+  const [savingPackageId, setSavingPackageId] = useState<string | null>(null);
   
   // API URL State
   const [apiUrl, setApiUrl] = useState(() => {
     return localStorage.getItem('nonimedia_api_url') || DEFAULT_API_BASE;
   });
+
+  // Auth State
+  const [token, setToken] = useState<string | null>(() => readStoredToken());
+  const [loginPassword, setLoginPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [loggingIn, setLoggingIn] = useState(false);
 
   // Loading & Error States
   const [loadingPortfolio, setLoadingPortfolio] = useState(false);
@@ -52,6 +99,70 @@ function App() {
   const [storyContent, setStoryContent] = useState('');
   const [storyFile, setStoryFile] = useState<File | null>(null);
   const [storySubmitting, setStorySubmitting] = useState(false);
+
+  // Auth Helpers
+  const signOut = (message?: string) => {
+    storeToken(null);
+    setToken(null);
+    setLoginPassword('');
+    setLoginError(message || '');
+  };
+
+  // fetch() wrapper for protected endpoints: sends the token, signs out on 401
+  const authFetch = async (url: string, init: RequestInit = {}) => {
+    const headers = new Headers(init.headers);
+    if (token) headers.set('Authorization', `Bearer ${token}`);
+    const res = await fetch(url, { ...init, headers });
+    if (res.status === 401) {
+      signOut(SESSION_EXPIRED_MSG);
+      throw new Error(SESSION_EXPIRED_MSG);
+    }
+    return res;
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!loginPassword) {
+      setLoginError('Please enter the admin password.');
+      return;
+    }
+    setLoggingIn(true);
+    setLoginError('');
+    try {
+      const res = await fetch(`${apiUrl}/api/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: loginPassword }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.detail || 'Sign in failed.');
+      }
+      storeToken(data.token, data.expiresAt);
+      setToken(data.token);
+      setLoginPassword('');
+    } catch (err: any) {
+      setLoginError(
+        err instanceof TypeError
+          ? `Could not reach the API server at ${apiUrl}. Check the address and that the backend is running.`
+          : err.message || 'Sign in failed.'
+      );
+    } finally {
+      setLoggingIn(false);
+    }
+  };
+
+  // Confirm a saved session is still valid on this server
+  useEffect(() => {
+    if (!token) return;
+    fetch(`${apiUrl}/api/session`, { headers: { Authorization: `Bearer ${token}` } })
+      .then((res) => {
+        if (res.status === 401) signOut(SESSION_EXPIRED_MSG);
+      })
+      .catch(() => {
+        // Server unreachable - the data loaders show that error
+      });
+  }, [token, apiUrl]);
 
   // Fetch Data
   const fetchPortfolio = async () => {
@@ -92,10 +203,28 @@ function App() {
     }
   };
 
+  const fetchPackages = async () => {
+    setLoadingPackages(true);
+    try {
+      const res = await fetch(`${apiUrl}/api/packages`);
+      if (!res.ok) throw new Error('Failed to fetch packages');
+      const data: PricePackage[] = await res.json();
+      setPackages(data);
+      setPriceDrafts(Object.fromEntries(data.map((pkg) => [pkg.id, String(pkg.price)])));
+    } catch (err: any) {
+      console.error(err);
+      setErrorMsg(`Could not load package prices from ${apiUrl}. Make sure your backend is running the latest version.`);
+    } finally {
+      setLoadingPackages(false);
+    }
+  };
+
   useEffect(() => {
+    if (!token) return;
     fetchPortfolio();
     fetchStories();
-  }, [apiUrl]);
+    fetchPackages();
+  }, [apiUrl, token]);
 
   const handleMessage = (type: 'success' | 'error', text: string) => {
     if (type === 'success') {
@@ -125,7 +254,7 @@ function App() {
     formData.append('file', portFile);
 
     try {
-      const res = await fetch(`${apiUrl}/api/portfolio`, {
+      const res = await authFetch(`${apiUrl}/api/portfolio`, {
         method: 'POST',
         body: formData,
       });
@@ -157,7 +286,7 @@ function App() {
     }
 
     try {
-      const res = await fetch(`${apiUrl}/api/portfolio/${id}`, {
+      const res = await authFetch(`${apiUrl}/api/portfolio/${id}`, {
         method: 'DELETE',
       });
 
@@ -169,7 +298,7 @@ function App() {
       }
     } catch (err: any) {
       console.error(err);
-      handleMessage('error', 'Error deleting portfolio item.');
+      handleMessage('error', err.message === SESSION_EXPIRED_MSG ? err.message : 'Error deleting portfolio item.');
     }
   };
 
@@ -193,7 +322,7 @@ function App() {
     }
 
     try {
-      const res = await fetch(`${apiUrl}/api/stories`, {
+      const res = await authFetch(`${apiUrl}/api/stories`, {
         method: 'POST',
         body: formData,
       });
@@ -227,7 +356,7 @@ function App() {
     }
 
     try {
-      const res = await fetch(`${apiUrl}/api/stories/${id}`, {
+      const res = await authFetch(`${apiUrl}/api/stories/${id}`, {
         method: 'DELETE',
       });
 
@@ -239,9 +368,88 @@ function App() {
       }
     } catch (err: any) {
       console.error(err);
-      handleMessage('error', 'Error deleting story.');
+      handleMessage('error', err.message === SESSION_EXPIRED_MSG ? err.message : 'Error deleting story.');
     }
   };
+
+  // Update a package price
+  const handleSavePrice = async (pkg: PricePackage) => {
+    const price = parsePriceInput(priceDrafts[pkg.id] ?? '');
+    if (!price || price <= 0) {
+      handleMessage('error', 'Please enter a valid price in Naira, e.g. 350000.');
+      return;
+    }
+
+    setSavingPackageId(pkg.id);
+    try {
+      const res = await authFetch(`${apiUrl}/api/packages/${pkg.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ price }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.detail || 'Failed to update price');
+      }
+      setPackages((prev) => prev.map((p) => (p.id === pkg.id ? data : p)));
+      setPriceDrafts((prev) => ({ ...prev, [pkg.id]: String(data.price) }));
+      handleMessage('success', `${data.name} is now ${formatNaira(data.price)}.`);
+    } catch (err: any) {
+      console.error(err);
+      handleMessage('error', err.message || 'Error updating price.');
+    } finally {
+      setSavingPackageId(null);
+    }
+  };
+
+  if (!token) {
+    return (
+      <div className="login-screen">
+        <form className="login-card admin-form" onSubmit={handleLogin}>
+          <div className="login-brand">
+            <h1 className="logo">NONIMEDIA <span>CONCEPT</span></h1>
+            <span className="badge">Admin Portal</span>
+          </div>
+          <p className="login-intro">Sign in to manage the portfolio and journal.</p>
+
+          {loginError && <div className="login-error" role="alert">{loginError}</div>}
+
+          <div className="form-group">
+            <label htmlFor="login-password">Admin Password</label>
+            <input
+              type="password"
+              id="login-password"
+              value={loginPassword}
+              onChange={(e) => setLoginPassword(e.target.value)}
+              autoComplete="current-password"
+              autoFocus
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="login-api-url">API Endpoint</label>
+            <input
+              type="text"
+              id="login-api-url"
+              value={apiUrl}
+              onChange={(e) => {
+                setApiUrl(e.target.value);
+                localStorage.setItem('nonimedia_api_url', e.target.value);
+              }}
+              placeholder="http://127.0.0.1:8000"
+              spellCheck={false}
+            />
+            <span className="help-text">The address of the Nonimedia backend server.</span>
+          </div>
+
+          <button type="submit" className="btn btn-gold" disabled={loggingIn}>
+            {loggingIn ? 'Signing in...' : 'Sign In'}
+          </button>
+        </form>
+      </div>
+    );
+  }
 
   return (
     <div className="admin-app">
@@ -287,6 +495,18 @@ function App() {
               onClick={() => setActiveTab('stories')}
             >
               Stories/Journal
+            </button>
+            <button 
+              className={`nav-btn ${activeTab === 'packages' ? 'active' : ''}`}
+              onClick={() => setActiveTab('packages')}
+            >
+              Packages
+            </button>
+            <button
+              className="nav-btn nav-btn-signout"
+              onClick={() => signOut()}
+            >
+              Sign Out
             </button>
           </nav>
         </div>
@@ -343,7 +563,7 @@ function App() {
                   <li><strong>Auto-Rebuild:</strong> Commits automatically trigger GitHub Pages to deploy your live website instantly.</li>
                 </ul>
                 <p>
-                  To set up your live cloud backend on Render, simply create a new service, set <code>GITHUB_TOKEN</code>, <code>GITHUB_OWNER</code>, and <code>GITHUB_REPO</code> in the environment variables, and the API will handle the rest!
+                  To set up your live cloud backend on Render, simply create a new service, set <code>ADMIN_PASSWORD</code>, <code>GITHUB_TOKEN</code>, <code>GITHUB_OWNER</code>, and <code>GITHUB_REPO</code> in the environment variables, and the API will handle the rest!
                 </p>
               </div>
             </div>
@@ -573,6 +793,61 @@ function App() {
                   )}
                 </div>
               </div>
+            </div>
+          )}
+
+          {/* PACKAGES TAB */}
+          {activeTab === 'packages' && (
+            <div className="tab-content packages-tab">
+              <h2 className="tab-title">Package Prices</h2>
+              <p className="tab-intro">
+                New prices show on the Home, Packages and Contact pages as soon as the website updates.
+              </p>
+
+              {loadingPackages ? (
+                <div className="spinner">Loading packages...</div>
+              ) : (
+                <div className="packages-admin-grid">
+                  {packages.map((pkg) => {
+                    const draft = priceDrafts[pkg.id] ?? '';
+                    const draftPrice = parsePriceInput(draft);
+                    const unchanged = draftPrice === pkg.price;
+                    const saving = savingPackageId === pkg.id;
+                    return (
+                      <form
+                        key={pkg.id}
+                        className="admin-form package-price-card"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          handleSavePrice(pkg);
+                        }}
+                      >
+                        <h3 className="card-title">{pkg.name}</h3>
+                        <span className="current-price">{formatNaira(pkg.price)}</span>
+
+                        <div className="form-group">
+                          <label htmlFor={`price-${pkg.id}`}>New Price (₦)</label>
+                          <input
+                            type="text"
+                            inputMode="numeric"
+                            id={`price-${pkg.id}`}
+                            value={draft}
+                            onChange={(e) => setPriceDrafts((prev) => ({ ...prev, [pkg.id]: e.target.value }))}
+                            placeholder="e.g. 350000"
+                          />
+                          <span className="help-text">
+                            {draftPrice > 0 ? `Shows on the site as ${formatNaira(draftPrice)}` : 'Numbers only, e.g. 350000'}
+                          </span>
+                        </div>
+
+                        <button type="submit" className="btn btn-gold" disabled={saving || unchanged || draftPrice <= 0}>
+                          {saving ? 'Saving...' : 'Save Price'}
+                        </button>
+                      </form>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           )}
 

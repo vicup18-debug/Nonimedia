@@ -1,0 +1,17 @@
+[
+  {
+    "id": "bronze",
+    "name": "Bronze Package",
+    "price": 300000
+  },
+  {
+    "id": "silver",
+    "name": "Silver Package",
+    "price": 500000
+  },
+  {
+    "id": "gold",
+    "name": "Gold Package",
+    "price": 800000
+  }
+]
